@@ -1,4 +1,5 @@
 # inventory_system.py
+import copy
 
 def create_inventory():
     """
@@ -6,7 +7,7 @@ def create_inventory():
     including dictionary comprehensions and dict() constructor.
     """
     electronics = dict()
-    electronics['mobile'] = 'Moto g84'
+    #electronics['mobile'] = 'Moto g84'
     electronics['laptop'] = {'name': 'Laptop', 'price': 1100, 'quantity': 5}
     grocery = dict([("Rice", {'name': 'Rice', 'price': 100, 'quantity': 1000}),("oil", dict(name='Oil', price=220, quantity=50))])
     category = [electronics, grocery]
@@ -18,8 +19,14 @@ def update_inventory(inventory, category, item_name, update_info):
     """
     Update item information (e.g., increasing stock, updating price) in the inventory.
     """
+    """
     for k,v in update_info.items():
         inventory[category][item_name][k] = v
+    return
+    """
+    for update_key, update_value in update_info.items():
+        inventory[category][item_name][update_key] = update_value
+    return
 
 def merge_inventories(inv1, inv2):
     """
@@ -64,28 +71,43 @@ def check_item_in_stock(inventory, item_name):
     """
     Check if an item is in stock and return its details if available.
     """
-    pass
+    for _,v in inventory.values():
+        if item_name in v and v[item_name]['quantity'] > 0:
+            return v[item_name]
+        else:
+            return None
 
 def view_categories(inventory):
     """
     View available categories (keys of the outer dictionary).
     """
-    pass
+    return inventory
 
 def view_all_items(inventory):
     """
     View all items (values of the inventory).
     """
-    pass
+    all_items = []
+    for items in inventory.values():
+        all_items.extend(items.values())
+    return all_items
 
 def view_category_item_pairs(inventory):
     """
     View category-item pairs (items view of the inventory).
     """
-    pass
+    pairs = []
+    for category, items in inventory.items():
+        for item in items:
+            pairs.append((category, item))
+    return pairs
 
 def copy_inventory(inventory, deep=True):
     """
     Copy the entire inventory structure. Use deep copy if deep=True, else use shallow copy.
     """
-    pass
+    if deep:
+        inventory_copy = copy.deepcopy(inventory)
+    else:
+        inventory_copy = inventory.copy()
+    return inventory_copy

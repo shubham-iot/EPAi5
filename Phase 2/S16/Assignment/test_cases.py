@@ -1,7 +1,7 @@
 # test_cases.py
 
 import unittest
-from inventory_system import (
+from praveen_inventory_system import (
     create_inventory,
     update_inventory,
     merge_inventories,
